@@ -85,6 +85,9 @@
             var motor = new Motor();
             var punkty = 0;
 
+            $("body").attr("tabindex", "0");
+            $("body").focus();
+
             $("body").on("touchstart",function(e){motor.kilk(e)});
             $("body").on("keydown",function(e){motor.klawisz(e)});
         </script>
