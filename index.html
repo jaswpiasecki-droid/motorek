@@ -68,11 +68,11 @@
             Motor.prototype.klawisz = function(zdarzenie){
                 if(zdarzenie.keyCode === 38){
                     if(this.pozycja <= 2){
-                    this.pozycja -= 1;}
+                    this.pozycja += 1;}
                 }
                 if(zdarzenie.keyCode === 40){
                     if(this.pozycja > 0){
-                    this.pozycja +=1;}
+                    this.pozycja -=1;}
                 }
                 this.ruszaj();
             }
