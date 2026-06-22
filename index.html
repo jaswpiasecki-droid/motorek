@@ -19,7 +19,7 @@
                     $("#"+this.id).offset({top:this.pozycja * 150,left:this.x})
                     if(this.czyZderzenie()){
                         $("body").empty();
-                        $("body").append("<h1>Game Over<br>zdobyłeś " + punkty + " punktów<h1>");
+                        $("body").append("<h1>Game Over<br>zdobyłeś " + punkty + " punktów</h1>");
                         return}
                     if(this.x < 0){
                         this.x = 900;
@@ -68,11 +68,11 @@
             Motor.prototype.klawisz = function(zdarzenie){
                 if(zdarzenie.keyCode === 38){
                     if(this.pozycja <= 2){
-                    this.pozycja += 1;}
+                    this.pozycja -= 1;}
                 }
                 if(zdarzenie.keyCode === 40){
                     if(this.pozycja > 0){
-                    this.pozycja -=1;}
+                    this.pozycja +=1;}
                 }
             }
 
@@ -84,7 +84,8 @@
             var motor = new Motor();
             var punkty = 0;
 
-            $("body").on("touchstart",function(e){motor.kilk(e)})
+            $("body").on("touchstart",function(e){motor.kilk(e)});
+            $("body").on("keydown",function(e){motor.klawisz(e)});
         </script>
     </body>
 </html>
