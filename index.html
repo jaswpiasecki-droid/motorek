@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>gra motor</title>
+    </head>
+    <body>
+        <img src="https://supersoco.pl/wp-content/uploads/2024/02/tc-1.png" id="motor" width="150" height="150">
+        <h1 id="punkty">Punkty:0</h1>
+        <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+        <script>
+
+            function Blokada(obrazek,numer,przerwa){
+                $("body").append('<img src="' + obrazek + '" id = "blokada' + numer + '" width="150" height="150">');
+                this.id = "blokada" + numer;
+                this.pozycja = this.losujPozycje();
+                this.x = 900;
+                this.ruszaj = function(){
+                    this.x -=5
+                    $("#"+this.id).offset({top:this.pozycja * 150,left:this.x})
+                    if(this.czyZderzenie()){
+                        $("body").empty();
+                        $("body").append("<h1>Game Over<br>zdobyłeś " + punkty + " punktów<h1>");
+                        return}
+                    if(this.x < 0){
+                        this.x = 900;
+                        this.pozycja = this.losujPozycje();
+                        punkty += 1;
+                        $("#punkty").text("Punkty:"+punkty);
+                    }
+                }
+                this.losujPozycje = function(){
+                    return Math.floor(Math.random() * 3)
+                }
+                this.strat = function(){
+                    setInterval(() => this.ruszaj(),20)
+                }
+                setTimeout(() => this.strat(),przerwa);
+                $("#"+this.id).offset({top:this.pozycja * 150,left:this.x});
+            }
+
+            Blokada.prototype.czyZderzenie = function(){
+                if(motor.pozycja === this.pozycja && this.x < 150){
+                    return true
+                }
+                else{
+                    return false
+                }
+            }
+
+            function Motor(){
+                this.pozycja = 2;
+            }
+
+            Motor.prototype.kilk = function(event){
+                if(event.originalEvent.touches[0].pageY > 225){
+                    if(this.pozycja < 2){
+                    this.pozycja += 1;}
+                }
+                else{
+                    if(this.pozycja > 0){
+                    this.pozycja -=1;}
+                }
+                this.ruszaj();
+            }
+            Motor.prototype.ruszaj = function(){
+                $("#motor").offset({top:this.pozycja*150});
+            }
+            Motor.prototype.klawisz = function(zdarzenie){
+                if(zdarzenie.keyCode === 38){
+                    if(this.pozycja <= 2){
+                    this.pozycja += 1;}
+                }
+                if(zdarzenie.keyCode === 40){
+                    if(this.pozycja > 0){
+                    this.pozycja -=1;}
+                }
+            }
+
+            $("#punkty").offset({top:0,left:0})
+
+            var bolka = new Blokada("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKR1PryHknI-24A0u6VlfxA56Ci6SSRIdVCHOGycgLmg&s=10","1",0)
+            var bolka2 = new Blokada("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgdoO192iJwZPK5yhWrAclj4T-JvswnxTXxO2zbHOOBA&s=10","2",1000)
+            var bolka3 = new Blokada("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7B6yG9a_aYYNmSlE44NL5B541P0vizKSmQnSWtAPzBQ&s","3",2000)
+            var motor = new Motor();
+            var punkty = 0;
+
+            $("body").on("touchstart",function(e){motor.kilk(e)})
+        </script>
+    </body>
+</html>
